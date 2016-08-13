@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cerebro</title>
+    <link rel="stylesheet" type="text/css" href="./dist/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+</head>
+
+<body>
+
+    <h1>Cerebro - CSV Generator</h1>
+
+    <div id="generator">
+
+        <h2 id="gtitle">Item Title</h2>
+        <h3 id="gfile">File Name</h3>
+        <div>
+            <p id="gdes">Description Text</p>
+            <p id="gexe">Description Text</p>
+        </div>
+        <textarea id="ginput" rows="5" cols="100" placeholder="Description Text"></textarea>
+        <div id="gcontrols"><p id="gback" onclick="back()">Back</p><p id="gnext" onclick="next()">Next</p></div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="scripts/generator.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+
+
+</body>
+
+</html>

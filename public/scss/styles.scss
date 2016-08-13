@@ -16,3 +16,63 @@ h1 {
     font-weight: 100;
     margin-bottom: 1.5rem;
 }
+
+#dropArea{
+    width:400px;
+    height: 400px;
+    border: 2px dotted ;
+    background-color: antiquewhite;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+textarea{
+    resize: none;
+}
+
+#generator{
+    text-align: center;
+    background-color: #1495c4;
+    padding:1.5%;
+    width:75%;
+    max-width: 75%;
+
+
+    #gtitle{
+
+    }
+    #gdes{
+       padding:2%;
+    }
+
+    #ginput{
+        margin-top:5%;
+        margin-bottom:5%;
+        padding: 2.5%;
+        width:95%;
+
+    }
+
+    #gcontrols{
+        display: flex;
+        justify-content: space-between;
+
+
+        p{
+            padding:3%;
+
+        }
+
+        p:hover{
+            background-color: #38a6ce;
+        }
+
+
+    }
+}
+
+#gback{
+  visibility: hidden;
+}
