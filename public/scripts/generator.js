@@ -9,7 +9,6 @@ var current = {};
 var currentStep = 0;
 var dir = 1;
 
-localStorage.paths = JSON.stringify(["hello/hello.txt","hello/dir/dir.txt"]);//,"hello/dir/dry.txt","hello/dir/dirt.txt"]);
 var paths = JSON.parse(localStorage.paths);
 var currentPath = 0;
 
@@ -74,7 +73,7 @@ function next(){
 
         current[process[currentStep].name]=$("#ginput").val();
         currentStep++;
-        $("#ginput").val((current[process[currentStep].name])? current[process[currentStep].name] : "a");
+        $("#ginput").val((current[process[currentStep].name])? current[process[currentStep].name] : "");
         $("#ginput").focus();
         goThroughProcess()
         $("#gback").css("visibility","visible");
