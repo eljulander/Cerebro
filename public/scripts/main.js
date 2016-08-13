@@ -1,45 +1,69 @@
-window.webkitRequestFileSystem(TEMPORARY, 900 * 1024 * 1024, (fs) => {
-    log(fs);
-    fs.root.getFile('log.csv', {
-        create: true
-        , exclusive: false
-    }, (entry) => {
-        log(entry.fullPath);
-        entry.createWriter(function (fileWriter) {
-            fileWriter.onwriteend = function (e) {
-                console.log('Write completed.');
-            };
-            fileWriter.onerror = function (e) {
-                console.log('Write failed: ' + e.toString());
-            };
-            // Create a new Blob and write it to log.txt.
-            var blob = new Blob(['Lorem Ipsum\nWasup,peeps,this\nis,a,new,row'], {
-                type: 'text/plain'
-            });
-            fileWriter.write(blob);
-        }, EH);
+var isDone = true;
+var paths = [];
+function traverseFileTree(item, path) {
+  path = path || "";
+  if (item.isFile) {
+    // Get file
+      isDone = true;
+    item.file(function(file) {
+      if((file.size /1048)/ 1048 > 0){
+        console.log("File:", path + file.name);
+          paths.push(path+file.name);
+      }
+    });
+  } else if (item.isDirectory) {
+    // Get folder contents
+    var dirReader = item.createReader();
+    dirReader.readEntries(function(entries) {
 
-        entry.file((file) => {
-            var reader = new FileReader();
-            reader.onloadend = function (e) {
-                var txtArea = document.createElement('textarea');
-                txtArea.value = this.result;
-                document.body.appendChild(txtArea);
-            };
-            reader.readAsText(file);
-        }, EH);
+      for (var i=0; i<entries.length; i++) {
+          isDone = false;
+        traverseFileTree(entries[i], path + item.name + "/");
+      }
+    });
+  }
+}
 
-        $("body").append(`<a href = "${entry.toURL()}" download> TESTING!!! </a>`)
+var dropArea =document.getElementById("dropArea");
+dropArea.addEventListener("drop", function(event) {
+  event.preventDefault();
+  isDone =false;
+  var items = event.dataTransfer.items;
+  for (var i=0; i<items.length; i++) {
+    // webkitGetAsEntry is where the magic happens
+    var item = items[i].webkitGetAsEntry();
+    if (item) {
+      traverseFileTree(item);
+    }
+  }
+     window.setTimeout(check,50);
+}, false);
 
+function check(){
+    if(isDone){
+        console.log("Finished");
+        localStorage.paths = JSON.stringify(paths);
+        console.log(paths);
+        window.open("process.html");
+    }else{
+        window.setTimeout(check,50);
+    }
+}
 
-
-    }, EH);
+$("html").on("dragover", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    $(this).addClass('dragging');
 });
 
-function EH(e) {
-    console.error(e);
-}
+$("html").on("dragleave", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    $(this).removeClass('dragging');
+});
 
-function log(e) {
-    console.log(e);
-}
+$("html").on("drop", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    alert("Dropped!");
+});
